@@ -1,0 +1,19 @@
+{
+  "name": "microservice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "services/*"
+    ]
+  },
+  "scripts": {
+    "dev": "yarn learna run dev",
+    "build": "yarn learna run build"
+  },
+  "dependencies": {
+    "learna": "^1.0.1"
+  }
+}
