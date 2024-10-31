@@ -1,0 +1,34 @@
+{
+    "services": {
+        "inventory": {
+            "url": "http://localhost:4002",
+            "routes": [
+                {
+                    "path": "/inventories/:id",
+                    "methods": ["put", "get"]
+                },
+                {
+                    "path": "/inventories/:id/details",
+                    "methods": ["get"]
+                }
+            ]
+        },
+        "product": {
+            "url": "http://localhost:4001",
+            "routes": [
+                {
+                    "path": "/products",
+                    "methods": ["get", "post"]
+                },
+                {
+                    "path": "/products/:id",
+                    "methods": ["put", "get"]
+                },
+                {
+                    "path": "/products/:id/details",
+                    "methods": ["get"]
+                }
+            ]
+        }
+    }
+}

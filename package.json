@@ -14,10 +14,11 @@
     ]
   },
   "scripts": {
-    "dev": "yarn learna run dev",
-    "build": "yarn learna run build"
+    "dev": "yarn lerna run dev",
+    "build": "yarn lerna run build"
   },
-  "dependencies": {
-    "learna": "^1.0.1"
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^8.1.9"
   }
 }
