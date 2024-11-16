@@ -30,7 +30,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(404).json({ msg: "user not found" });
     }
 
-    return res.status(200).json({ msg: "Authorized" });
+    return res.status(200).json({ msg: "Authorized", user });
   } catch (err) {
     next(err);
   }

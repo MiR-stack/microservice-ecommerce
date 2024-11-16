@@ -1,6 +1,7 @@
 import { Express, Request, Response } from "express";
 import { services } from "./config.json";
 import axios from "axios";
+import middlewares from "./middlewares";
 
 const createHandler = (url: string, path: string, method: string) => {
   return async (req: Request, res: Response) => {
@@ -10,9 +11,19 @@ const createHandler = (url: string, path: string, method: string) => {
         path = path.replace(":id", id);
       }
 
-      const { data } = await axios[method](`${url}${path}`, {
-        ...req.body,
-      });
+      console.log("before axios call");
+      const { data } = await axios[method](
+        `${url}${path}`,
+        {
+          ...req.body,
+        },
+        {
+          Headers: {
+            ...req.headers,
+          },
+        }
+      );
+      console.log("after axios call");
 
       res.send(data);
     } catch (err) {
@@ -25,11 +36,18 @@ const createHandler = (url: string, path: string, method: string) => {
 };
 
 const configRoutes = (app: Express) => {
-  Object.entries(services).forEach(([name, service]) => {
+  Object.entries(services).forEach(([_name, service]) => {
     service.routes.forEach((route) => {
       route.methods.forEach((method) => {
         const handler = createHandler(service.url, route.path, method);
-        app[method](`/api/v1${route.path}`, handler);
+
+        // add middlewares
+        const Middlewares =
+          route.middlewares?.map((middleware) => {
+            return middlewares[middleware];
+          }) || [];
+
+        app[method](`/api/v1${route.path}`, ...Middlewares, handler);
       });
     });
   });
