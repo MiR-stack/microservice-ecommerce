@@ -9,6 +9,7 @@ import {
   updateProduct,
 } from "./controllers";
 import getProductDetails from "./controllers/getProductDetails";
+import updateProducts from "./controllers/updateProducts";
 
 dotenv.config();
 
@@ -22,11 +23,12 @@ app.use("/helth", (_req, res) => {
 });
 
 // routes
+app.post("/products", createProduct);
+app.put("/products/bulk/update", updateProducts);
+app.put("/products/:id", updateProduct);
 app.get("/products/:id/details", getProductDetails);
 app.get("/products/:id", getProduct);
 app.get("/products", getProducts);
-app.post("/products", createProduct);
-app.put("/products/:id", updateProduct);
 
 // 404 error handle
 app.use("*", (_req, res: Response) => {

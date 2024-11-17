@@ -1,5 +1,5 @@
 import prisma from "@/prisma";
-import { productUptateDTOSchema } from "@/schemas";
+import { productUpdateDTOSchema } from "@/schemas";
 import { NextFunction, Request, Response } from "express";
 
 const updateProduct = async (
@@ -22,7 +22,7 @@ const updateProduct = async (
     }
 
     // update product
-    const parsedBody = productUptateDTOSchema.safeParse(req.body);
+    const parsedBody = productUpdateDTOSchema.safeParse(req.body);
 
     if (!parsedBody.success) {
       return res.status(400).json({ error: parsedBody.error.errors });
