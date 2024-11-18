@@ -18,6 +18,12 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).json({ msg: "Unauthorized" });
     }
 
+    // set headers
+    const { id, name, email } = data.user;
+    req.headers["x-user-id"] = id;
+    req.headers["x-user-name"] = name;
+    req.headers["x-user-email"] = email;
+
     next();
   } catch (error) {
     next(error);
