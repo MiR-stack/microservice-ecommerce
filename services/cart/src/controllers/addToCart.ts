@@ -1,4 +1,4 @@
-import { INVENTORY_SERVICE, PRODUCT_SERVICE, SESSION_TTL } from "@/config";
+import { INVENTORY_SERVICE, SESSION_TTL } from "@/config";
 import redis from "@/redis";
 import { addToCartSchema } from "@/schemas";
 import axios from "axios";
@@ -20,10 +20,11 @@ const addToCart = async (req: Request, res: Response, next: NextFunction) => {
     if (sessionId) {
       // check is session id expired
       const exist = await redis.get(`sessionId:${sessionId}`);
-      console.log(exist, "sessionid");
       if (!exist) {
         sessionId = null;
       }
+
+      await redis.expire(`sessionId:${sessionId}`, SESSION_TTL);
     }
 
     if (!sessionId) {

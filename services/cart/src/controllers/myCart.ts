@@ -5,15 +5,14 @@ const myCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const sessionId = (req.headers["x-session-id"] as string) || null;
     if (!sessionId) {
-      return res.status(400).json({ data: [] });
+      return res.send({ data: [] });
     }
 
     // check is session id expired
     const exist = await redis.get(`sessionId:${sessionId}`);
 
-    console.log(exist, "session id");
     if (!exist) {
-      return res.status(400).json({ data: [] });
+      return res.send({ data: [] });
     }
 
     // get cart items
@@ -31,7 +30,7 @@ const myCart = async (req: Request, res: Response, next: NextFunction) => {
       };
     });
 
-    res.send(formatedItems);
+    res.send({ data: formatedItems });
   } catch (error) {
     next(error);
   }
