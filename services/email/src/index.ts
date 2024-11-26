@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
 import { getMails, sendMail } from "./controllers";
+import "./services/queue";
 
 dotenv.config();
 

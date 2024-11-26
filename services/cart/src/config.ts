@@ -10,3 +10,5 @@ export const PRODUCT_SERVICE =
   process.env.PRODUCT_SERVICE_URL || "http://localhost:4001";
 export const INVENTORY_SERVICE =
   process.env.INVENTORY_SERVICE_URL || `http://localhost:4002`;
+
+export const QUEUE_URL = process.env.AMQP_URL || "amqp://localhost";

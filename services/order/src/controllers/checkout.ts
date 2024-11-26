@@ -1,5 +1,6 @@
 import prisma from "@/prisma";
 import { orderDTOSchema, orderItemDTOSchema } from "@/schemas";
+import sendToQueue from "@/sendToQueue";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
@@ -83,17 +84,16 @@ const checkout = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     // send confirmation email
-    await axios.post(`${process.env.EMAIL_SERVICE_URL}/emails/send`, {
+    const email = {
       recipient: userEmail,
       subject: "Order Confirmation",
       body: `We're excited to confirm that your order has been processed and is on its way. Order Id: ${order.id}`,
       source: "order creation",
-    });
+    };
+    sendToQueue("send-mail", JSON.stringify(email));
 
     // clear cart
-    await axios.delete(`${process.env.CART_SERVICE_URL}/cart/clear`, {
-      headers: { "x-session-id": parsedBody.data.sessionId },
-    });
+    sendToQueue("clear-cart", JSON.stringify(parsedBody.data.sessionId));
 
     res
       .status(201)

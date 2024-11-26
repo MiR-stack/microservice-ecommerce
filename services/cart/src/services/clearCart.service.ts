@@ -24,6 +24,7 @@ const clearCart = async (sessionId: string) => {
 
   // delete cart
   await redis.del(`cart:${sessionId}`);
+  await redis.del(`sessionId:${sessionId}`);
 
   // release inventory
   cartItems.forEach(async (item) => {

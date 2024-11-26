@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "@/prisma";
 import { emailDTOSchema } from "@/schema";
 import { DEFAULT_SENDER_EMAIL, transporter } from "@/config";
+import { sendEmail } from "@/services";
 
 const sendMail = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -12,36 +13,10 @@ const sendMail = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(400).json({ errors: parsedBody.error.errors });
     }
 
-    // create mail options
-
-    const { sender, recipient, body, subject, source } = parsedBody.data;
-
-    const mailOptions = {
-      from: sender || DEFAULT_SENDER_EMAIL,
-      to: recipient,
-      subject,
-      text: body,
-    };
-
     // send mail
-    const mail = await transporter.sendMail(mailOptions);
+    const mail = await sendEmail(parsedBody.data);
 
-    if (!mail) {
-      return res.status(500).json({ msg: "mail not send" });
-    }
-
-    // record mail
-    await prisma.email.create({
-      data: {
-        sender: sender || DEFAULT_SENDER_EMAIL,
-        recipient,
-        subject,
-        body,
-        source,
-      },
-    });
-
-    return res.status(200).json({msg:'mail send successfully'})
+    return res.status(mail.status).json({ msg: mail.msg });
   } catch (err) {
     next(err);
   }

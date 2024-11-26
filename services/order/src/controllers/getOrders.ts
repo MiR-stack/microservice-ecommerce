@@ -22,8 +22,6 @@ const getOrders = async (req: Request, res: Response, next: NextFunction) => {
           .split(",")
           .reduce((acc, curr) => {
             const [key, value] = curr.split(":");
-
-            console.log(key, value, "from orders filter");
             acc[key] = String(value).toUpperCase();
             return acc;
           }, {})

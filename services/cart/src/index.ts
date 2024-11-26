@@ -6,6 +6,7 @@ import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
 import { addToCart, clearCart, myCart } from "./controllers";
 import "./events/onKeyExpire";
+import "./services/queue.service";
 
 dotenv.config();
 
