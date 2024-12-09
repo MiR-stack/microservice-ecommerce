@@ -34,7 +34,7 @@ const createProduct = async (
       }
     );
 
-    console.log("product created");
+    console.log("inventory created");
 
     // delete product if inventory creation failed
     if (!inventory) {

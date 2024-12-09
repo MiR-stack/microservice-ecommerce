@@ -1,0 +1,14 @@
+{
+  "name": "kong-custom-plugins",
+  "version": "1.0.0",
+  "main": "custom-auth.js",
+  "scripts": {
+    "start": "node custom-auth.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
